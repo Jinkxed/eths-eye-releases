@@ -1,0 +1,83 @@
+{
+  "spells": {
+    "Ancestral Wisdom": {
+      "msgCastOnYou": "You invoke the wisdom of ancestral spirits."
+    },
+    "Blessing of Smiting": {
+      "msgCastOnYou": "You are blessed with smiting."
+    },
+    "Flame Shield": {
+      "msgCastOnOther": "[Target] is surrounded by a flame shield."
+    },
+    "Ghostly Blight": {
+      "msgCastOnOther": "[Target] is engulfed in ghostly blight.",
+      "msgWearsOff": "Your Ghostly Blight wears off of [Target]."
+    },
+    "Greater Malady": {
+      "msgCastOnOther": "[Target] is afflicted with a greater malady."
+    },
+    "Malady": {
+      "msgCastOnOther": "[Target] is stricken by malady."
+    },
+    "Mesmerize": {
+      "msgCastOnOther": "[Target] is mesmerized."
+    },
+    "Minor Communion of Regeneration": {
+      "msgCastOnYou": "Your wounds begin to regenerate.",
+      "msgCastOnOther": "[Target]'s wounds begin to regenerate."
+    },
+    "Omen of Lethargy": {
+      "msgCastOnOther": "[Target] looks lethargic.",
+      "msgWearsOff": "Your Omen of Lethargy wears off of [Target]."
+    },
+    "Pact of Haste": {
+      "msgCastOnYou": "Your movements accelerate.",
+      "msgCastOnOther": "[Target]'s movements accelerate."
+    },
+    "Pact of Renewal": {
+      "msgCastOnYou": "You are renewed by an ancestral pact.",
+      "msgCastOnOther": "[Target] is renewed by an ancestral pact.",
+      "msgWearsOff": "Your ancestral healing fades."
+    },
+    "Poison Protection": {
+      "msgCastOnOther": "[Target] is protected from poison."
+    },
+    "Prayer of the Faithful": {
+      "msgCastOnOther": "[Target]'s faith fills them with vigor."
+    },
+    "Promise of Mending": {
+      "msgCastOnYou": "You are bestowed a promise of mending.",
+      "msgCastOnOther": "[Target] is bestowed a promise of mending.",
+      "msgWearsOff": "Your promise ends."
+    },
+    "Resilience": {
+      "msgCastOnYou": "You become resilient.",
+      "msgCastOnOther": "[Target] becomes resilient."
+    },
+    "Shackle": {
+      "msgCastOnOther": "[Target] is shackled to the ground."
+    },
+    "Speed of the Wild": {
+      "msgCastOnYou": "You feel the speed of the wild within you.",
+      "msgCastOnOther": "[Target] is imbued with the speed of the wild."
+    },
+    "Theft of Vigor": {
+      "msgCastOnOther": "[Target] reels as vigor leaves their body."
+    },
+    "Tribal Spirit": {
+      "msgCastOnOther": "[Target] goes berserk."
+    }
+  },
+  "ignoredLines": [
+    "a deepcut overseer looks angry at zerekab",
+    "a deepcut overseer s minor arcane volley hits",
+    "guarire is afflicted with an infectious disease",
+    "you are afflicted with a malady",
+    "you begin harvesting woodcap",
+    "your gate is too unstable and collapses",
+    "your ghostly blight hits a deepcut miner for 12",
+    "your ghostly blight hits a deepcut overseer for 12",
+    "your ghostly blight hits a delvestone miner for 12"
+  ],
+  "syncedAt": "2026-11-06T01:59:57.811Z"
+}
