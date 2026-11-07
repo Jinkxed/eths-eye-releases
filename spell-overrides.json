@@ -67,7 +67,8 @@
     },
     "Speed of the Wild": {
       "msgCastOnYou": "You feel the speed of the wild within you.",
-      "msgCastOnOther": "[Target] is imbued with the speed of the wild."
+      "msgCastOnOther": "[Target] is imbued with the speed of the wild.",
+      "msgWearsOff": "Your bestial speed fades."
     },
     "Theft of Vigor": {
       "msgCastOnOther": "[Target] reels as vigor leaves their body."
@@ -87,5 +88,5 @@
     "your ghostly blight hits a deepcut overseer for 12",
     "your ghostly blight hits a delvestone miner for 12"
   ],
-  "syncedAt": "2026-11-07T18:10:48.009Z"
+  "syncedAt": "2026-11-07T21:00:39.179Z"
 }
