@@ -17,6 +17,10 @@
       "msgCastOnOther": "[Target] is engulfed in ghostly blight.",
       "msgWearsOff": "Your Ghostly Blight wears off of [Target]."
     },
+    "Greater Ghostly Blight": {
+      "msgCastOnOther": "[Target] is engulfed in a greater ghostly blight.",
+      "msgWearsOff": "Your Greater Ghostly Blight wears off of [Target]."
+    },
     "Greater Malady": {
       "msgCastOnOther": "[Target] is afflicted with a greater malady."
     },
@@ -83,5 +87,5 @@
     "your ghostly blight hits a deepcut overseer for 12",
     "your ghostly blight hits a delvestone miner for 12"
   ],
-  "syncedAt": "2026-11-06T02:45:31.888Z"
+  "syncedAt": "2026-11-07T18:10:48.009Z"
 }
