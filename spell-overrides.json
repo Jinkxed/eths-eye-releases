@@ -7,6 +7,26 @@
       "msgCastOnYou": "You are enveloped in a vampiric aura.",
       "msgWearsOff": "The vampiric aura fades."
     },
+    "Berserker Frenzy": {
+      "msgCastOnYou": "You go berserk.",
+      "msgCastOnOther": "[Target] goes berserk."
+    },
+    "Berserker Fury": {
+      "msgCastOnYou": "You go berserk.",
+      "msgCastOnOther": "[Target] goes berserk."
+    },
+    "Berserker Rage": {
+      "msgCastOnYou": "You go berserk.",
+      "msgCastOnOther": "[Target] goes berserk."
+    },
+    "Berserker Spirit": {
+      "msgCastOnYou": "You go berserk.",
+      "msgCastOnOther": "[Target] goes berserk."
+    },
+    "Berserker Wrath": {
+      "msgCastOnYou": "You go berserk.",
+      "msgCastOnOther": "[Target] goes berserk."
+    },
     "Blessing of Smiting": {
       "msgCastOnYou": "You are blessed with smiting."
     },
@@ -88,5 +108,5 @@
     "your ghostly blight hits a deepcut overseer for 12",
     "your ghostly blight hits a delvestone miner for 12"
   ],
-  "syncedAt": "2026-11-07T21:00:39.179Z"
+  "syncedAt": "2026-11-09T05:15:37.758Z"
 }
