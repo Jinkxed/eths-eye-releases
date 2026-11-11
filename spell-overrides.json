@@ -82,8 +82,16 @@
       "msgCastOnYou": "You become resilient.",
       "msgCastOnOther": "[Target] becomes resilient."
     },
+    "Root": {
+      "msgCastOnOther": "[Target] is rooted to the ground.",
+      "msgWearsOff": "Your Root wears off of [Target]."
+    },
     "Shackle": {
       "msgCastOnOther": "[Target] is shackled to the ground."
+    },
+    "Sickness": {
+      "msgCastOnOther": "[Target] is afflicted with sickness.",
+      "msgWearsOff": "Your Sickness wears off of [Target]."
     },
     "Speed of the Wild": {
       "msgCastOnYou": "You feel the speed of the wild within you.",
@@ -108,5 +116,5 @@
     "your ghostly blight hits a deepcut overseer for 12",
     "your ghostly blight hits a delvestone miner for 12"
   ],
-  "syncedAt": "2026-11-09T05:15:37.758Z"
+  "syncedAt": "2026-11-11T04:05:25.025Z"
 }
