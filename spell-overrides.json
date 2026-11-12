@@ -1,5 +1,11 @@
 {
   "spells": {
+    "Adrenaline": {
+      "durationSec": 3600
+    },
+    "Ancestor's Eye": {
+      "durationSec": 3600
+    },
     "Ancestral Wisdom": {
       "msgCastOnYou": "You invoke the wisdom of ancestral spirits."
     },
@@ -9,26 +15,113 @@
     },
     "Berserker Frenzy": {
       "msgCastOnYou": "You go berserk.",
-      "msgCastOnOther": "[Target] goes berserk."
+      "msgCastOnOther": "[Target] goes berserk.",
+      "durationSec": 3600
     },
     "Berserker Fury": {
       "msgCastOnYou": "You go berserk.",
-      "msgCastOnOther": "[Target] goes berserk."
+      "msgCastOnOther": "[Target] goes berserk.",
+      "durationSec": 3600
     },
     "Berserker Rage": {
       "msgCastOnYou": "You go berserk.",
-      "msgCastOnOther": "[Target] goes berserk."
+      "msgCastOnOther": "[Target] goes berserk.",
+      "durationSec": 3600
     },
     "Berserker Spirit": {
       "msgCastOnYou": "You go berserk.",
-      "msgCastOnOther": "[Target] goes berserk."
+      "msgCastOnOther": "[Target] goes berserk.",
+      "durationSec": 3600
     },
     "Berserker Wrath": {
       "msgCastOnYou": "You go berserk.",
-      "msgCastOnOther": "[Target] goes berserk."
+      "msgCastOnOther": "[Target] goes berserk.",
+      "durationSec": 3600
+    },
+    "Blessing of Dedication": {
+      "durationSec": 3600
+    },
+    "Blessing of Devotion": {
+      "durationSec": 3600
+    },
+    "Blessing of Divinity": {
+      "durationSec": 3600
     },
     "Blessing of Smiting": {
-      "msgCastOnYou": "You are blessed with smiting."
+      "msgCastOnYou": "You are blessed with smiting.",
+      "durationSec": 3600
+    },
+    "Cold Protection": {
+      "durationSec": 3600
+    },
+    "Cold Resistance": {
+      "durationSec": 3600
+    },
+    "Communion of Regeneration": {
+      "durationSec": 3600
+    },
+    "Corruption Protection": {
+      "durationSec": 3600
+    },
+    "Corruption Resistance": {
+      "durationSec": 3600
+    },
+    "Diamondskin": {
+      "durationSec": 3600
+    },
+    "Disease Protection": {
+      "durationSec": 3600
+    },
+    "Disease Resistance": {
+      "durationSec": 3600
+    },
+    "Divine Spark": {
+      "durationSec": 3600
+    },
+    "Electric Protection": {
+      "durationSec": 3600
+    },
+    "Electric Resistance": {
+      "durationSec": 3600
+    },
+    "Enduring Breath": {
+      "durationSec": 3600
+    },
+    "Enlightenment": {
+      "durationSec": 3600
+    },
+    "Exceptional Communion of Regeneration": {
+      "durationSec": 3600
+    },
+    "Exceptional Enlightenment": {
+      "durationSec": 3600
+    },
+    "Exceptional Group Enlightenment": {
+      "durationSec": 3600
+    },
+    "Exceptional Group Sagacity": {
+      "durationSec": 3600
+    },
+    "Exceptional Pack Recovery": {
+      "durationSec": 3600
+    },
+    "Exceptional Regeneration": {
+      "durationSec": 3600
+    },
+    "Exceptional Sagacity": {
+      "durationSec": 3600
+    },
+    "Exceptional Strength": {
+      "durationSec": 3600
+    },
+    "Eye of the Underworld": {
+      "durationSec": 3600
+    },
+    "Fire Protection": {
+      "durationSec": 3600
+    },
+    "Fire Resistance": {
+      "durationSec": 3600
     },
     "Flame Shield": {
       "msgCastOnOther": "[Target] is surrounded by a flame shield."
@@ -37,12 +130,114 @@
       "msgCastOnOther": "[Target] is engulfed in ghostly blight.",
       "msgWearsOff": "Your Ghostly Blight wears off of [Target]."
     },
+    "Greater Communion of Regeneration": {
+      "durationSec": 3600
+    },
+    "Greater Enlightenment": {
+      "durationSec": 3600
+    },
     "Greater Ghostly Blight": {
       "msgCastOnOther": "[Target] is engulfed in a greater ghostly blight.",
       "msgWearsOff": "Your Greater Ghostly Blight wears off of [Target]."
     },
+    "Greater Group Enlightenment": {
+      "durationSec": 3600
+    },
+    "Greater Group Sagacity": {
+      "durationSec": 3600
+    },
     "Greater Malady": {
       "msgCastOnOther": "[Target] is afflicted with a greater malady."
+    },
+    "Greater Pack Recovery": {
+      "durationSec": 3600
+    },
+    "Greater Pact of Haste": {
+      "durationSec": 3600
+    },
+    "Greater Regeneration": {
+      "durationSec": 3600
+    },
+    "Greater Resilience": {
+      "durationSec": 3600
+    },
+    "Greater Resolution": {
+      "durationSec": 3600
+    },
+    "Greater Rite of Haste": {
+      "durationSec": 3600
+    },
+    "Greater Sagacity": {
+      "durationSec": 3600
+    },
+    "Greater Strength": {
+      "durationSec": 3600
+    },
+    "Group Enlightenment": {
+      "durationSec": 3600
+    },
+    "Group Sagacity": {
+      "durationSec": 3600
+    },
+    "Haste": {
+      "durationSec": 3600
+    },
+    "Holy Protection": {
+      "durationSec": 3600
+    },
+    "Holy Resistance": {
+      "durationSec": 3600
+    },
+    "Hunter's Focus": {
+      "durationSec": 3600
+    },
+    "Hunter's Recovery III": {
+      "durationSec": 3600
+    },
+    "Hymn of Greater Resilience": {
+      "durationSec": 3600
+    },
+    "Hymn of Greater Resolution": {
+      "durationSec": 3600
+    },
+    "Hymn of Lesser Resolution": {
+      "durationSec": 3600
+    },
+    "Hymn of Resolution": {
+      "durationSec": 3600
+    },
+    "Hymn of Smiting": {
+      "durationSec": 3600
+    },
+    "Lesser Blessing of Devotion": {
+      "durationSec": 3600
+    },
+    "Lesser Enlightenment": {
+      "durationSec": 3600
+    },
+    "Lesser Group Enlightenment": {
+      "durationSec": 3600
+    },
+    "Lesser Group Sagacity": {
+      "durationSec": 3600
+    },
+    "Lesser Resilience": {
+      "durationSec": 3600
+    },
+    "Lesser Resolution": {
+      "durationSec": 3600
+    },
+    "Lesser Sagacity": {
+      "durationSec": 3600
+    },
+    "Lesser Strength": {
+      "durationSec": 3600
+    },
+    "Magic Protection": {
+      "durationSec": 3600
+    },
+    "Magic Resistance": {
+      "durationSec": 3600
     },
     "Malady": {
       "msgCastOnOther": "[Target] is stricken by malady."
@@ -54,21 +249,53 @@
       "msgCastOnYou": "Your wounds begin to regenerate.",
       "msgCastOnOther": "[Target]'s wounds begin to regenerate."
     },
+    "Minor Group Sagacity": {
+      "durationSec": 3600
+    },
+    "Minor Sagacity": {
+      "durationSec": 3600
+    },
+    "Minor Strength": {
+      "durationSec": 3600
+    },
+    "Natureskin": {
+      "durationSec": 3600
+    },
     "Omen of Lethargy": {
       "msgCastOnOther": "[Target] looks lethargic.",
       "msgWearsOff": "Your Omen of Lethargy wears off of [Target]."
     },
+    "Pack Recovery": {
+      "durationSec": 3600
+    },
+    "Pact of Coldlight": {
+      "durationSec": 3600
+    },
+    "Pact of Deathly Enduring": {
+      "durationSec": 3600
+    },
+    "Pact of Eldritch Quickening": {
+      "durationSec": 3600
+    },
     "Pact of Haste": {
       "msgCastOnYou": "Your movements accelerate.",
-      "msgCastOnOther": "[Target]'s movements accelerate."
+      "msgCastOnOther": "[Target]'s movements accelerate.",
+      "durationSec": 3600
     },
     "Pact of Renewal": {
       "msgCastOnYou": "You are renewed by an ancestral pact.",
       "msgCastOnOther": "[Target] is renewed by an ancestral pact.",
       "msgWearsOff": "Your ancestral healing fades."
     },
+    "Pact of Vampirism": {
+      "durationSec": 3600
+    },
     "Poison Protection": {
-      "msgCastOnOther": "[Target] is protected from poison."
+      "msgCastOnOther": "[Target] is protected from poison.",
+      "durationSec": 3600
+    },
+    "Poison Resistance": {
+      "durationSec": 3600
     },
     "Prayer of the Faithful": {
       "msgCastOnOther": "[Target]'s faith fills them with vigor."
@@ -78,31 +305,127 @@
       "msgCastOnOther": "[Target] is bestowed a promise of mending.",
       "msgWearsOff": "Your promise ends."
     },
+    "Ranger's Recovery": {
+      "durationSec": 3600
+    },
+    "Ranger's Recovery II": {
+      "durationSec": 3600
+    },
+    "Rapidity": {
+      "durationSec": 3600
+    },
+    "Regeneration": {
+      "durationSec": 3600
+    },
     "Resilience": {
       "msgCastOnYou": "You become resilient.",
-      "msgCastOnOther": "[Target] becomes resilient."
+      "msgCastOnOther": "[Target] becomes resilient.",
+      "durationSec": 3600
+    },
+    "Resolution": {
+      "durationSec": 3600
+    },
+    "Rite of Haste": {
+      "durationSec": 3600
     },
     "Root": {
       "msgCastOnOther": "[Target] is rooted to the ground.",
       "msgWearsOff": "Your Root wears off of [Target]."
     },
+    "Sagacity": {
+      "durationSec": 3600
+    },
+    "See Invisibility": {
+      "durationSec": 3600
+    },
+    "Sense Magic": {
+      "durationSec": 3600
+    },
     "Shackle": {
       "msgCastOnOther": "[Target] is shackled to the ground."
+    },
+    "Shrink": {
+      "durationSec": 3600
+    },
+    "Shrink Companion": {
+      "durationSec": 3600
     },
     "Sickness": {
       "msgCastOnOther": "[Target] is afflicted with sickness.",
       "msgWearsOff": "Your Sickness wears off of [Target]."
     },
+    "Speed of the Pack": {
+      "durationSec": 3600
+    },
     "Speed of the Wild": {
       "msgCastOnYou": "You feel the speed of the wild within you.",
       "msgCastOnOther": "[Target] is imbued with the speed of the wild.",
-      "msgWearsOff": "Your bestial speed fades."
+      "msgWearsOff": "Your bestial speed fades.",
+      "durationSec": 3600
+    },
+    "Speedy Companion": {
+      "durationSec": 3600
+    },
+    "Steelskin": {
+      "durationSec": 3600
+    },
+    "Stoneskin": {
+      "durationSec": 3600
+    },
+    "Strength": {
+      "durationSec": 3600
+    },
+    "Swiftness": {
+      "durationSec": 3600
     },
     "Theft of Vigor": {
       "msgCastOnOther": "[Target] reels as vigor leaves their body."
     },
+    "Tribal Frenzy": {
+      "durationSec": 3600
+    },
+    "Tribal Fury": {
+      "durationSec": 3600
+    },
+    "Tribal Rage": {
+      "durationSec": 3600
+    },
     "Tribal Spirit": {
-      "msgCastOnOther": "[Target] goes berserk."
+      "msgCastOnOther": "[Target] goes berserk.",
+      "durationSec": 3600
+    },
+    "Tribal Wrath": {
+      "durationSec": 3600
+    },
+    "Union of Diamond": {
+      "durationSec": 3600
+    },
+    "Union of Nature": {
+      "durationSec": 3600
+    },
+    "Union of Steel": {
+      "durationSec": 3600
+    },
+    "Union of Stone": {
+      "durationSec": 3600
+    },
+    "Union of Wood": {
+      "durationSec": 3600
+    },
+    "Unveil": {
+      "durationSec": 3600
+    },
+    "Wolf Form": {
+      "durationSec": 3600
+    },
+    "Wolf Pack": {
+      "durationSec": 3600
+    },
+    "Woodskin": {
+      "durationSec": 3600
+    },
+    "Zeal": {
+      "durationSec": 3600
     }
   },
   "ignoredLines": [
@@ -116,5 +439,5 @@
     "your ghostly blight hits a deepcut overseer for 12",
     "your ghostly blight hits a delvestone miner for 12"
   ],
-  "syncedAt": "2026-11-11T04:05:25.025Z"
+  "syncedAt": "2026-11-12T17:36:25.472Z"
 }
