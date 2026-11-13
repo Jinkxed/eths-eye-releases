@@ -246,9 +246,6 @@
     "Lesser Blessing of Devotion": {
       "durationSec": 3600
     },
-    "Lesser Communion of Regeneration": {
-      "durationSec": 3600
-    },
     "Lesser Enlightenment": {
       "durationSec": 3600
     },
@@ -259,9 +256,6 @@
       "durationSec": 3600
     },
     "Lesser Pack Recovery": {
-      "durationSec": 3600
-    },
-    "Lesser Regeneration": {
       "durationSec": 3600
     },
     "Lesser Resilience": {
@@ -293,16 +287,12 @@
     },
     "Minor Communion of Regeneration": {
       "msgCastOnYou": "Your wounds begin to regenerate.",
-      "msgCastOnOther": "[Target]'s wounds begin to regenerate.",
-      "durationSec": 3600
+      "msgCastOnOther": "[Target]'s wounds begin to regenerate."
     },
     "Minor Group Sagacity": {
       "durationSec": 3600
     },
     "Minor Pack Recovery": {
-      "durationSec": 3600
-    },
-    "Minor Regeneration": {
       "durationSec": 3600
     },
     "Minor Sagacity": {
@@ -507,5 +497,5 @@
     "your ghostly blight hits a deepcut overseer for 12",
     "your ghostly blight hits a delvestone miner for 12"
   ],
-  "syncedAt": "2026-11-13T02:46:54.089Z"
+  "syncedAt": "2026-11-13T03:07:37.462Z"
 }
