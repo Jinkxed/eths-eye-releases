@@ -9,6 +9,9 @@
     "Ancestral Wisdom": {
       "msgCastOnYou": "You invoke the wisdom of ancestral spirits."
     },
+    "Arch Spellshield": {
+      "durationSec": 3600
+    },
     "Aura of Vampirism": {
       "msgCastOnYou": "You are enveloped in a vampiric aura.",
       "msgWearsOff": "The vampiric aura fades."
@@ -114,6 +117,9 @@
     "Exceptional Sagacity": {
       "durationSec": 3600
     },
+    "Exceptional Spellshield": {
+      "durationSec": 3600
+    },
     "Exceptional Strength": {
       "durationSec": 3600
     },
@@ -173,6 +179,9 @@
     "Greater Sagacity": {
       "durationSec": 3600
     },
+    "Greater Spellshield": {
+      "durationSec": 3600
+    },
     "Greater Strength": {
       "durationSec": 3600
     },
@@ -194,6 +203,12 @@
     "Hunter's Focus": {
       "durationSec": 3600
     },
+    "Hunter's Recovery": {
+      "durationSec": 3600
+    },
+    "Hunter's Recovery II": {
+      "durationSec": 3600
+    },
     "Hunter's Recovery III": {
       "durationSec": 3600
     },
@@ -210,6 +225,18 @@
       "durationSec": 3600
     },
     "Hymn of Smiting": {
+      "durationSec": 3600
+    },
+    "Illusion: Dwarf": {
+      "durationSec": 3600
+    },
+    "Illusion: Goblin": {
+      "durationSec": 3600
+    },
+    "Illusion: Halfling": {
+      "durationSec": 3600
+    },
+    "Illusion: Wood Elf": {
       "durationSec": 3600
     },
     "Invisibility": {
@@ -231,6 +258,12 @@
     "Lesser Group Sagacity": {
       "durationSec": 3600
     },
+    "Lesser Pack Recovery": {
+      "durationSec": 3600
+    },
+    "Lesser Regeneration": {
+      "durationSec": 3600
+    },
     "Lesser Resilience": {
       "durationSec": 3600
     },
@@ -238,6 +271,9 @@
       "durationSec": 3600
     },
     "Lesser Sagacity": {
+      "durationSec": 3600
+    },
+    "Lesser Spellshield": {
       "durationSec": 3600
     },
     "Lesser Strength": {
@@ -257,9 +293,16 @@
     },
     "Minor Communion of Regeneration": {
       "msgCastOnYou": "Your wounds begin to regenerate.",
-      "msgCastOnOther": "[Target]'s wounds begin to regenerate."
+      "msgCastOnOther": "[Target]'s wounds begin to regenerate.",
+      "durationSec": 3600
     },
     "Minor Group Sagacity": {
+      "durationSec": 3600
+    },
+    "Minor Pack Recovery": {
+      "durationSec": 3600
+    },
+    "Minor Regeneration": {
       "durationSec": 3600
     },
     "Minor Sagacity": {
@@ -269,6 +312,9 @@
       "durationSec": 3600
     },
     "Natureskin": {
+      "durationSec": 3600
+    },
+    "Oath of Vigilance": {
       "durationSec": 3600
     },
     "Omen of Lethargy": {
@@ -342,6 +388,15 @@
       "msgCastOnOther": "[Target] is rooted to the ground.",
       "msgWearsOff": "Your Root wears off of [Target]."
     },
+    "Runeskin III": {
+      "durationSec": 3600
+    },
+    "Runeskin IV": {
+      "durationSec": 3600
+    },
+    "Runeskin V": {
+      "durationSec": 3600
+    },
     "Sagacity": {
       "durationSec": 3600
     },
@@ -374,6 +429,9 @@
       "durationSec": 3600
     },
     "Speedy Companion": {
+      "durationSec": 3600
+    },
+    "Spellshield": {
       "durationSec": 3600
     },
     "Steelskin": {
@@ -449,5 +507,5 @@
     "your ghostly blight hits a deepcut overseer for 12",
     "your ghostly blight hits a delvestone miner for 12"
   ],
-  "syncedAt": "2026-11-13T02:45:10.145Z"
+  "syncedAt": "2026-11-13T02:46:54.089Z"
 }
