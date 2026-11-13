@@ -13,6 +13,9 @@
       "msgCastOnYou": "You are enveloped in a vampiric aura.",
       "msgWearsOff": "The vampiric aura fades."
     },
+    "Barbed Arrow": {
+      "msgCastOnOther": "[Target] is struck by a barbed arrow."
+    },
     "Berserker Frenzy": {
       "msgCastOnYou": "You go berserk.",
       "msgCastOnOther": "[Target] goes berserk.",
@@ -443,5 +446,5 @@
     "your ghostly blight hits a deepcut overseer for 12",
     "your ghostly blight hits a delvestone miner for 12"
   ],
-  "syncedAt": "2026-11-12T21:03:33.748Z"
+  "syncedAt": "2026-11-13T02:34:36.097Z"
 }
