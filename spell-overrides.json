@@ -219,6 +219,9 @@
     "Lesser Blessing of Devotion": {
       "durationSec": 3600
     },
+    "Lesser Communion of Regeneration": {
+      "durationSec": 3600
+    },
     "Lesser Enlightenment": {
       "durationSec": 3600
     },
@@ -446,5 +449,5 @@
     "your ghostly blight hits a deepcut overseer for 12",
     "your ghostly blight hits a delvestone miner for 12"
   ],
-  "syncedAt": "2026-11-13T02:34:36.097Z"
+  "syncedAt": "2026-11-13T02:45:10.145Z"
 }
