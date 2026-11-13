@@ -66,6 +66,9 @@
     "Communion of Regeneration": {
       "durationSec": 3600
     },
+    "Consuming Pact": {
+      "msgCastOnYou": "You seal a consuming pact, offering your flesh to the spirits."
+    },
     "Corruption Protection": {
       "durationSec": 3600
     },
@@ -497,5 +500,5 @@
     "your ghostly blight hits a deepcut overseer for 12",
     "your ghostly blight hits a delvestone miner for 12"
   ],
-  "syncedAt": "2026-11-13T03:07:37.462Z"
+  "syncedAt": "2026-11-13T03:26:03.036Z"
 }
