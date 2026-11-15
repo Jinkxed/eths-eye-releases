@@ -1,0 +1,230 @@
+# Builds Eth's Eye from its private source repo (Jinkxed/eths-eye) and publishes the release here.
+# It runs here because Actions is free on a public repo, Mac runners included; in the private repo
+# the Mac build used up the account's minutes. The private repo's Release workflow starts this one
+# on every push to its main (or run it by hand: Actions -> Build and release -> Run workflow).
+#
+# Secrets (Settings -> Secrets and variables -> Actions):
+#   SOURCE_TOKEN                 fine-grained token: Contents read on Jinkxed/eths-eye
+#   MAC_CERTIFICATE              the Developer ID Application .p12, base64
+#   MAC_CERTIFICATE_PASSWORD     its password
+#   APPLE_ID, APPLE_APP_SPECIFIC_PASSWORD, APPLE_TEAM_ID   for notarizing
+#   DISCORD_ANNOUNCE_WEBHOOK     optional: #announcements webhook
+# Variable MAC_SIGNING_MODE: auto (default), adhoc or developer-id.
+#
+# Logs here are public: they show commit messages and build output, never the source or secrets.
+name: Build and release
+
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: Source commit or branch to build
+        default: main
+      since:
+        description: "Source commit of the last release (blank: read from the last release's notes)"
+        default: ''
+
+# One release at a time: a second run waits for the first to finish.
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+env:
+  SOURCE_REPO: Jinkxed/eths-eye
+
+jobs:
+  # Which commit, which version, and what changed since the last release.
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      sha: ${{ steps.p.outputs.sha }}
+      version: ${{ steps.p.outputs.version }}
+    steps:
+      - id: p
+        env:
+          GH_TOKEN: ${{ secrets.SOURCE_TOKEN }}
+          OWN_TOKEN: ${{ github.token }}
+          REF: ${{ inputs.ref }}
+          SINCE: ${{ inputs.since }}
+        run: |
+          if [ -z "$GH_TOKEN" ]; then
+            echo "::error::Add a secret SOURCE_TOKEN (Contents read on $SOURCE_REPO)."
+            exit 1
+          fi
+          sha=$(gh api "repos/$SOURCE_REPO/commits/$REF" --jq .sha)
+          base=$(gh api "repos/$SOURCE_REPO/contents/package.json?ref=$sha" --jq .content | base64 -d | jq -r '.version | split(".")[0:2] | join(".")')
+          # Updates only install a newer version: one past the newest release of this major.minor.
+          last=$(GH_TOKEN=$OWN_TOKEN gh release list --repo "$GITHUB_REPOSITORY" --exclude-drafts --limit 1 --json tagName --jq '.[0].tagName // ""')
+          lastv=${last#v}
+          if [ "${lastv%.*}" = "$base" ]; then version="$base.$(( ${lastv##*.} + 1 ))"; else version="$base.0"; fi
+          if [ -z "$SINCE" ] && [ -n "$last" ]; then
+            SINCE=$(GH_TOKEN=$OWN_TOKEN gh release view "$last" --repo "$GITHUB_REPOSITORY" --json body --jq .body | sed -n 's/.*<!-- source: \([0-9a-f]\{40\}\) -->.*/\1/p' | tail -1)
+          fi
+          # The commits since the last release (the private repo's history), as the push event had them.
+          if [ -n "$SINCE" ]; then
+            gh api "repos/$SOURCE_REPO/compare/$SINCE...$sha" --jq '[.commits[] | {message: .commit.message}]' > commits.json
+          else
+            gh api "repos/$SOURCE_REPO/commits/$sha" --jq '[{message: .commit.message}]' > commits.json
+          fi
+          echo "Releasing $version from $sha ($(jq length commits.json) commits)"
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: commits
+          path: commits.json
+          retention-days: 1
+
+  # The Mac app, built on a Mac runner and handed to the release job (which runs the tests, once).
+  mac:
+    needs: prepare
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ env.SOURCE_REPO }}
+          ref: ${{ needs.prepare.outputs.sha }}
+          token: ${{ secrets.SOURCE_TOKEN }}
+          persist-credentials: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      - name: Set version
+        run: npm version "${{ needs.prepare.outputs.version }}" --no-git-tag-version
+
+      - name: Date the shipped spell messages
+        run: node -e "const fs=require('fs');const f='data/spell-overrides.json';const d=JSON.parse(fs.readFileSync(f,'utf8'));d.syncedAt=new Date().toISOString();fs.writeFileSync(f,JSON.stringify(d,null,2))"
+
+      # Without the Apple secrets the app is ad-hoc signed (package.json build.mac), and macOS asks
+      # players to allow it once (Privacy & Security -> Open Anyway). With them, electron-builder
+      # signs with the Developer ID certificate in CSC_LINK (the one whose name holds the Team ID),
+      # turns on the hardened runtime (its default entitlements cover Electron), notarizes and
+      # staples. spctl then fails the release if Gatekeeper still wouldn't open it, e.g. a secret is
+      # missing and it wasn't notarized. MAC_SIGNING_MODE=adhoc explicitly selects temporary
+      # ad-hoc releases without removing the secrets. The secrets are only in this step, not npm ci.
+      - name: Build the Mac app
+        env:
+          MAC_SIGNING_MODE: ${{ vars.MAC_SIGNING_MODE }}
+          CSC_LINK: ${{ secrets.MAC_CERTIFICATE }}
+          CSC_KEY_PASSWORD: ${{ secrets.MAC_CERTIFICATE_PASSWORD }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: |
+          mode="${MAC_SIGNING_MODE:-auto}"
+          case "$mode" in
+            auto|adhoc|developer-id) ;;
+            *) echo "::error::MAC_SIGNING_MODE must be auto, adhoc, or developer-id."; exit 1 ;;
+          esac
+          if [ "$mode" = adhoc ] || { [ "$mode" = auto ] && [ -z "$CSC_LINK" ]; }; then
+            echo "::warning::Building an ad-hoc signed Mac app; macOS warns on first open."
+            # An explicit temporary opt-out must also disable notarization and certificate import.
+            unset CSC_LINK CSC_KEY_PASSWORD APPLE_ID APPLE_APP_SPECIFIC_PASSWORD APPLE_TEAM_ID
+            npm run dist:mac
+            codesign --verify --deep --strict "dist/mac-arm64/Eth's Eye.app"
+            exit 0
+          fi
+          if [ -z "$CSC_LINK" ]; then
+            echo "::error::Developer ID signing requires MAC_CERTIFICATE."
+            exit 1
+          fi
+          npm run dist:mac -- -c.mac.identity="$APPLE_TEAM_ID" -c.mac.hardenedRuntime=true
+          spctl --assess --type execute --verbose=4 "dist/mac-arm64/Eth's Eye.app"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mac
+          path: |
+            dist/eths-eye-mac-*.dmg
+            dist/eths-eye-mac-*.zip
+          if-no-files-found: error
+          retention-days: 1
+
+  release:
+    needs: [prepare, mac]
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ env.SOURCE_REPO }}
+          ref: ${{ needs.prepare.outputs.sha }}
+          token: ${{ secrets.SOURCE_TOKEN }}
+          persist-credentials: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      - name: Check
+        run: |
+          npm run typecheck
+          npm test
+
+      - name: Set version
+        run: npm version "${{ needs.prepare.outputs.version }}" --no-git-tag-version
+
+      # Dates the spell messages inside the installer, so a downloaded copy only replaces them
+      # once something newer is published (src/main/spellMessages.ts).
+      - name: Date the shipped spell messages
+        run: node -e "const fs=require('fs');const f='data/spell-overrides.json';const d=JSON.parse(fs.readFileSync(f,'utf8'));d.syncedAt=new Date().toISOString();fs.writeFileSync(f,JSON.stringify(d,null,2))"
+
+      - name: Build the installer
+        run: npm run dist
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: mac
+          path: dist
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: commits
+
+      # Published with GitHub's own CLI rather than electron-builder's publisher: building x64 and
+      # ARM64 into one installer starts two publish tasks that race to create the same release (one
+      # fails, and latest.yml, which installed copies read, never gets uploaded). Here the release is
+      # created as a draft with every file (Windows and Mac), then made public only once they're all there.
+      # The notes end with the source commit (hidden), where the next release starts its "what changed".
+      - name: Publish the release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          V: ${{ needs.prepare.outputs.version }}
+          SHA: ${{ needs.prepare.outputs.sha }}
+        run: |
+          files="dist/eths-eye-setup-$V.exe dist/eths-eye-setup-$V.exe.blockmap dist/latest.yml dist/eths-eye-mac-$V-arm64.dmg dist/eths-eye-mac-$V-arm64.zip"
+          ls -l $files
+          # The title is in its own variable: an apostrophe inside "${...}" breaks bash.
+          title="Eth's Eye $V"
+          # One commit: its whole message, as before. Several: each one's first line.
+          if [ "$(node -p "require('./commits.json').length")" = 1 ]; then
+            notes=$(node -p "require('./commits.json')[0].message")
+          else
+            notes=$(node -p "require('./commits.json').map((c) => '- ' + c.message.split('\n')[0]).join('\n')")
+          fi
+          printf '%s\n\n<!-- source: %s -->\n' "${notes:-$title}" "$SHA" > notes.md
+          gh release create "v$V" $files --repo "$GITHUB_REPOSITORY" --title "$title" --notes-file notes.md --draft
+          gh release edit "v$V" --repo "$GITHUB_REPOSITORY" --draft=false --latest
+
+      # Tells the Discord server. A failed post doesn't fail the release (it's already out).
+      - name: Announce on Discord
+        continue-on-error: true
+        shell: bash
+        env:
+          DISCORD_ANNOUNCE_WEBHOOK: ${{ secrets.DISCORD_ANNOUNCE_WEBHOOK }}
+          V: ${{ needs.prepare.outputs.version }}
+        run: |
+          COMMITS="$(cat commits.json)" VERSION="$V" RELEASE_URL="https://github.com/$GITHUB_REPOSITORY/releases/tag/v$V" node scripts/announce-release.mjs
