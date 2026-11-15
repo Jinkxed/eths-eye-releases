@@ -1,10 +1,11 @@
 # Builds Eth's Eye from its private source repo (Jinkxed/eths-eye) and publishes the release here.
 # It runs here because Actions is free on a public repo, Mac runners included; in the private repo
 # the Mac build used up the account's minutes. The private repo's Release workflow starts this one
-# on every push to its main (or run it by hand: Actions -> Build and release -> Run workflow).
+# on every push to main. A public scheduled check also picks up changes while the private repo
+# has no Actions minutes (or run by hand: Actions -> Build and release -> Run workflow).
 #
 # Secrets (Settings -> Secrets and variables -> Actions):
-#   SOURCE_TOKEN                 fine-grained token: Contents read on Jinkxed/eths-eye
+#   SOURCE_SSH_KEY               private half of a read-only deploy key on Jinkxed/eths-eye
 #   MAC_CERTIFICATE              the Developer ID Application .p12, base64
 #   MAC_CERTIFICATE_PASSWORD     its password
 #   APPLE_ID, APPLE_APP_SPECIFIC_PASSWORD, APPLE_TEAM_ID   for notarizing
@@ -15,6 +16,8 @@
 name: Build and release
 
 on:
+  schedule:
+    - cron: '7,22,37,52 * * * *'
   workflow_dispatch:
     inputs:
       ref:
@@ -42,37 +45,52 @@ jobs:
     outputs:
       sha: ${{ steps.p.outputs.sha }}
       version: ${{ steps.p.outputs.version }}
+      build: ${{ steps.p.outputs.build }}
     steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ env.SOURCE_REPO }}
+          ref: ${{ inputs.ref || 'main' }}
+          ssh-key: ${{ secrets.SOURCE_SSH_KEY }}
+          persist-credentials: false
+          fetch-depth: 0
       - id: p
         env:
-          GH_TOKEN: ${{ secrets.SOURCE_TOKEN }}
-          OWN_TOKEN: ${{ github.token }}
-          REF: ${{ inputs.ref }}
+          GH_TOKEN: ${{ github.token }}
           SINCE: ${{ inputs.since }}
+          EVENT: ${{ github.event_name }}
         run: |
-          if [ -z "$GH_TOKEN" ]; then
-            echo "::error::Add a secret SOURCE_TOKEN (Contents read on $SOURCE_REPO)."
-            exit 1
-          fi
-          sha=$(gh api "repos/$SOURCE_REPO/commits/$REF" --jq .sha)
-          base=$(gh api "repos/$SOURCE_REPO/contents/package.json?ref=$sha" --jq .content | base64 -d | jq -r '.version | split(".")[0:2] | join(".")')
-          # Updates only install a newer version: one past the newest release of this major.minor.
-          last=$(GH_TOKEN=$OWN_TOKEN gh release list --repo "$GITHUB_REPOSITORY" --exclude-drafts --limit 1 --json tagName --jq '.[0].tagName // ""')
-          lastv=${last#v}
-          if [ "${lastv%.*}" = "$base" ]; then version="$base.$(( ${lastv##*.} + 1 ))"; else version="$base.0"; fi
-          if [ -z "$SINCE" ] && [ -n "$last" ]; then
-            SINCE=$(GH_TOKEN=$OWN_TOKEN gh release view "$last" --repo "$GITHUB_REPOSITORY" --json body --jq .body | sed -n 's/.*<!-- source: \([0-9a-f]\{40\}\) -->.*/\1/p' | tail -1)
-          fi
-          # The commits since the last release (the private repo's history), as the push event had them.
-          if [ -n "$SINCE" ]; then
-            gh api "repos/$SOURCE_REPO/compare/$SINCE...$sha" --jq '[.commits[] | {message: .commit.message}]' > commits.json
-          else
-            gh api "repos/$SOURCE_REPO/commits/$sha" --jq '[{message: .commit.message}]' > commits.json
-          fi
-          echo "Releasing $version from $sha ($(jq length commits.json) commits)"
-          echo "sha=$sha" >> "$GITHUB_OUTPUT"
-          echo "version=$version" >> "$GITHUB_OUTPUT"
+          node <<'NODE'
+          const fs = require('node:fs');
+          const {execFileSync: exec} = require('node:child_process');
+          const git = (...args) => exec('git', args, {encoding:'utf8'}).trim();
+          const gh = (...args) => JSON.parse(exec('gh', args, {encoding:'utf8'}));
+          const repo = process.env.GITHUB_REPOSITORY;
+          const sha = git('rev-parse', 'HEAD');
+          const releases = gh('release','list','--repo',repo,'--limit','1000','--json','tagName,isDraft,isPrerelease');
+          const last = releases.find(r => !r.isDraft && !r.isPrerelease);
+          const body = last ? gh('release','view',last.tagName,'--repo',repo,'--json','body').body : '';
+          const since = process.env.SINCE || body.match(/<!-- source: ([0-9a-f]{40}) -->/)?.[1];
+          if (since && !/^[0-9a-f]{40}$/.test(since)) throw new Error('since must be a full source commit SHA');
+          const unchanged = since === sha;
+          const docsOnly = since && git('diff','--name-only',since,sha).split('\n').every(p => p.endsWith('.md') || p.startsWith('docs/') || p === 'data/spell-overrides.json' || !p);
+          if (unchanged || (process.env.EVENT === 'schedule' && docsOnly)) {
+            fs.appendFileSync(process.env.GITHUB_OUTPUT, 'build=false\n');
+            console.log('No new application changes to release.');
+            process.exit(0);
+          }
+          const base = JSON.parse(fs.readFileSync('package.json','utf8')).version.split('.').slice(0,2).join('.');
+          // Include drafts: a failed upload must not reuse an already reserved version.
+          const patches = releases.map(r => /^v(\d+\.\d+)\.(\d+)$/.exec(r.tagName)).filter(m => m && m[1] === base).map(m => Number(m[2]));
+          const version = base + '.' + (patches.length ? Math.max(...patches) + 1 : 0);
+          const hashes = since ? git('rev-list','--reverse',since + '..' + sha).split('\n').filter(Boolean) : [sha];
+          const commits = hashes.map(hash => ({message:git('show','-s','--format=%B',hash)}));
+          fs.writeFileSync('commits.json', JSON.stringify(commits));
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, 'build=true\nsha=' + sha + '\nversion=' + version + '\n');
+          console.log('Releasing ' + version + ' from ' + sha + ' (' + commits.length + ' commits)');
+          NODE
       - uses: actions/upload-artifact@v4
+        if: steps.p.outputs.build == 'true'
         with:
           name: commits
           path: commits.json
@@ -81,13 +99,14 @@ jobs:
   # The Mac app, built on a Mac runner and handed to the release job (which runs the tests, once).
   mac:
     needs: prepare
+    if: needs.prepare.outputs.build == 'true'
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
         with:
           repository: ${{ env.SOURCE_REPO }}
           ref: ${{ needs.prepare.outputs.sha }}
-          token: ${{ secrets.SOURCE_TOKEN }}
+          ssh-key: ${{ secrets.SOURCE_SSH_KEY }}
           persist-credentials: false
 
       - uses: actions/setup-node@v4
@@ -150,6 +169,7 @@ jobs:
 
   release:
     needs: [prepare, mac]
+    if: needs.prepare.outputs.build == 'true'
     runs-on: windows-latest
     permissions:
       contents: write
@@ -158,7 +178,7 @@ jobs:
         with:
           repository: ${{ env.SOURCE_REPO }}
           ref: ${{ needs.prepare.outputs.sha }}
-          token: ${{ secrets.SOURCE_TOKEN }}
+          ssh-key: ${{ secrets.SOURCE_SSH_KEY }}
           persist-credentials: false
 
       - uses: actions/setup-node@v4
