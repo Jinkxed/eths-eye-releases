@@ -12,7 +12,7 @@
 #   DISCORD_ANNOUNCE_WEBHOOK     optional: #announcements webhook
 # Variable MAC_SIGNING_MODE: auto (default), adhoc or developer-id.
 #
-# Logs here are public: they show commit messages and build output, never the source or secrets.
+# Logs here are public: keep credentials and private data out of commit messages and build output.
 name: Build and release
 
 on:
@@ -189,6 +189,7 @@ jobs:
       - run: npm ci
 
       - name: Check
+        shell: bash
         run: |
           npm run typecheck
           npm test
